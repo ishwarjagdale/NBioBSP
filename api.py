@@ -120,33 +120,3 @@ class NBioBSP:
         temp = self.api.Type.FIR_TEXTENCODE()
         temp.TextFIR = text_encoding
         return temp
-
-
-if __name__ == "__main__":
-
-    # Initialize API
-    api = NBioBSP()
-
-    # Open Device
-    api.open_device()
-
-    # Checks if finger is placed on the scanner
-    # print(api.check_finger())
-
-    # Captures fingerprint
-    # f = api.capture()
-    # rf = api.capture()
-    # texen = api.hfir_to_fir_text_encode(rf)
-    # print(texen.TextFIR)
-    #
-    #
-    # Converts fingerprint to text encoding
-    tfir = (api.str_to_fir_text_encode('AQAAABQAAAA0AQAAAQASAAEAZAAAAAAAMAEAAK9ZM3/XQL*193UJZg2o0Ub6F18jUnjt9afBvOZ1zRD0SfmrAeVW3MB2cvx3*HAtBPOhesdJxZtiJBzcdOSdNQsjeCsS2FcyUTwtWx0/r*IfvVReiTI5YG5cy3sfngHJj0pG*2T7ijine6kVeESYTq*DluY1id1kDo6sHMlrWdDOmJIHYL3lhSwlR/TJRpSqUwGykwZxk77hLEbc72ZhI96E4eCM*x*ynzgC/wmAT*xMtF4FBSFNp*iLhsOamzDj5YKBQ/4XEw/KUUSQyL6tE9cptTZK/AonblbVHOys*BpN31f5cBM5437FTVReZuccd5Y2H5s*mpkBH2W7gAGLYZqEIii64LR95LA8ietdNkKpcqhzeQQ3zk88nWEu*xIgyGv7Yl76owxpAYVN0i2cSuQ'))
-    print(tfir)
-    # Matches two fingerprints
-    # ff = api.capture()
-    # print(api.api.GetQualityInfo(None, None, None)[1].Quality)
-    print(api.verify(tfir))
-
-    # Closes the device
-    api.close_device()
