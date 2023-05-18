@@ -107,7 +107,7 @@ class NBioBSP:
         :return: NBioBSP.Type.FIR_TEXTENCODE
         """
         ret, fir_text_encode = self.api.GetTextFIRFromHandle(finger, self.api.Type.FIR_TEXTENCODE(), with_unicode,
-                                      (format or self.api.Type.FIR_FORMAT.STANDARD))
+                                                             (format or self.api.Type.FIR_FORMAT.STANDARD))
         if self._handle_return(ret):
             return fir_text_encode
 
@@ -120,3 +120,44 @@ class NBioBSP:
         temp = self.api.Type.FIR_TEXTENCODE()
         temp.TextFIR = text_encoding
         return temp
+
+
+class NBioBSP_IndexSearch:
+
+    def __init__(self, api: NBioBSP):
+        self.api = api.api
+        self.n_bio_bsp = api
+        self.ins = self.api.IndexSearch(self.api)
+        self.ins.InitEngine()
+
+    def add_fir(self, captured_fir=None):
+        if captured_fir is None:
+            captured_fir = self.n_bio_bsp.capture()
+        ret, data = self.ins.AddFIR(captured_fir, self.ins.GetDataCount()[1])
+        if self.n_bio_bsp._handle_return(ret):
+            return data
+        return False
+
+    def save_db(self, path=None):
+        ret = self.ins.SaveDBToFile(path if path else "temp.db")
+        if self.n_bio_bsp._handle_return(ret):
+            return True
+        return False
+
+    def load_db(self, path):
+        ret = self.ins.LoadDBFromFile(path)
+        if self.n_bio_bsp._handle_return(ret):
+            return True
+        return False
+
+    def clear_db(self):
+        ret = self.ins.ClearDB()
+        if self.n_bio_bsp._handle_return(ret):
+            return True
+        return False
+
+    def identify_data(self, finger_handle):
+        ret, data = self.ins.IdentifyData(finger_handle, 1, self.ins.FP_INFO(), self.ins.CALLBACK_INFO_0())
+        if self.n_bio_bsp._handle_return(ret):
+            return data
+        return False
